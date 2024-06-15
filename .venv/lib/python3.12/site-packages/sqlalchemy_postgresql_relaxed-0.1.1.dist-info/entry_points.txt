@@ -1,0 +1,4 @@
+[sqlalchemy.dialects]
+postgresql.asyncpg_relaxed = sqlalchemy_postgresql_relaxed.asyncpg:dialect
+postgresql.psycopg_relaxed = sqlalchemy_postgresql_relaxed.psycopg:dialect
+postgresql.psycopg_relaxed_async = sqlalchemy_postgresql_relaxed.psycopg:dialect_async

@@ -2,5 +2,4 @@
 vnv/
 test/
 __pycache__/
-.venv
 attendance/.credentials

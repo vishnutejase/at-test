@@ -1,0 +1,192 @@
+Metadata-Version: 2.1
+Name: sqlalchemy-postgresql-relaxed
+Version: 0.1.1
+Summary: Relaxed PostgreSQL dialects for SQLAlchemy
+Author-email: Andreas Motl <andreas.motl@panodata.org>
+License: MIT
+Project-URL: changelog, https://github.com/pyveci/sqlalchemy-postgresql-relaxed/blob/main/CHANGES.rst
+Project-URL: documentation, https://github.com/pyveci/sqlalchemy-postgresql-relaxed
+Project-URL: homepage, https://github.com/pyveci/sqlalchemy-postgresql-relaxed
+Project-URL: repository, https://github.com/pyveci/sqlalchemy-postgresql-relaxed
+Keywords: dialect,postgresql,sqlalchemy
+Classifier: Development Status :: 4 - Beta
+Classifier: Environment :: Console
+Classifier: Intended Audience :: Customer Service
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Education
+Classifier: Intended Audience :: Information Technology
+Classifier: Intended Audience :: Manufacturing
+Classifier: Intended Audience :: Science/Research
+Classifier: Intended Audience :: System Administrators
+Classifier: Intended Audience :: Telecommunications Industry
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: MacOS :: MacOS X
+Classifier: Operating System :: Microsoft :: Windows
+Classifier: Operating System :: POSIX :: Linux
+Classifier: Operating System :: Unix
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Communications
+Classifier: Topic :: Database
+Classifier: Topic :: Documentation
+Classifier: Topic :: Education
+Classifier: Topic :: Office/Business
+Classifier: Topic :: Scientific/Engineering
+Classifier: Topic :: Software Development :: Code Generators
+Classifier: Topic :: Software Development :: Libraries
+Classifier: Topic :: Software Development :: Testing
+Classifier: Topic :: System :: Archiving
+Classifier: Topic :: System :: Systems Administration
+Classifier: Topic :: Text Processing
+Classifier: Topic :: Utilities
+Requires-Python: >=3.7
+Description-Content-Type: text/x-rst
+License-File: LICENSE
+Requires-Dist: asyncpg
+Requires-Dist: psycopg[binary]
+Requires-Dist: sqlalchemy <3,>=2
+Provides-Extra: develop
+Requires-Dist: black <24 ; extra == 'develop'
+Requires-Dist: isort <6 ; extra == 'develop'
+Requires-Dist: poethepoet <0.25 ; extra == 'develop'
+Requires-Dist: proselint ==0.13 ; extra == 'develop'
+Requires-Dist: pyproject-fmt <1.6 ; extra == 'develop'
+Requires-Dist: ruff ==0.1.9 ; extra == 'develop'
+Requires-Dist: validate-pyproject <0.16 ; extra == 'develop'
+Provides-Extra: release
+Requires-Dist: build <2 ; extra == 'release'
+Requires-Dist: twine <5 ; extra == 'release'
+Requires-Dist: minibump <1 ; (python_version >= "3.10") and extra == 'release'
+Provides-Extra: test
+Requires-Dist: pytest <8 ; extra == 'test'
+Requires-Dist: pytest-asyncio <1 ; extra == 'test'
+Requires-Dist: pytest-cov <5 ; extra == 'test'
+
+.. image:: https://github.com/pyveci/sqlalchemy-postgresql-relaxed/workflows/Tests/badge.svg
+    :target: https://github.com/pyveci/sqlalchemy-postgresql-relaxed/actions?workflow=Tests
+
+.. image:: https://codecov.io/gh/pyveci/sqlalchemy-postgresql-relaxed/branch/main/graph/badge.svg
+    :target: https://codecov.io/gh/pyveci/sqlalchemy-postgresql-relaxed
+    :alt: Test suite code coverage
+
+.. image:: https://pepy.tech/badge/sqlalchemy-postgresql-relaxed/month
+    :target: https://pepy.tech/project/sqlalchemy-postgresql-relaxed
+
+.. image:: https://img.shields.io/pypi/v/sqlalchemy-postgresql-relaxed.svg
+    :target: https://pypi.org/project/sqlalchemy-postgresql-relaxed/
+
+.. image:: https://img.shields.io/pypi/status/sqlalchemy-postgresql-relaxed.svg
+    :target: https://pypi.org/project/sqlalchemy-postgresql-relaxed/
+
+.. image:: https://img.shields.io/pypi/pyversions/sqlalchemy-postgresql-relaxed.svg
+    :target: https://pypi.org/project/sqlalchemy-postgresql-relaxed/
+
+.. image:: https://img.shields.io/pypi/l/sqlalchemy-postgresql-relaxed.svg
+    :target: https://github.com/pyveci/sqlalchemy-postgresql-relaxed/blob/main/LICENSE
+
+|
+
+##########################################
+Relaxed PostgreSQL dialects for SQLAlchemy
+##########################################
+
+
+*****
+About
+*****
+
+The vanilla dialects for connecting to PostgreSQL with SQLAlchemy will employ
+a few behaviors that strictly expect a PostgreSQL server on the other end.
+However, some operations may croak on databases which only offer
+wire-compatibility with PostgreSQL.
+
+The dialects provided by ``sqlalchemy-postgresql-relaxed`` are building upon
+the vanilla SQLAlchemy dialects, but will disable a few PostgreSQL specifics.
+
+- ``postgresql+psycopg``: Accept non-conforming server version responses.
+- ``postgresql+psycopg``: Don't issue ``SHOW STANDARD_CONFORMING_STRINGS`` inquiry.
+- ``postgresql+asyncpg``: Don't strictly expect JSON and JSONB codecs.
+
+
+*****
+Usage
+*****
+
+The corresponding dialect identifiers are:
+
+- ``postgresql+psycopg_relaxed``
+- ``postgresql+asyncpg_relaxed``
+
+They can be used within SQLAlchemy database URL identifiers as usual.
+
+.. code-block:: python
+
+    # psycopg synchronous
+    create_engine(
+        url="postgresql+psycopg_relaxed://crate@localhost/acme",
+        isolation_level="AUTOCOMMIT",
+        use_native_hstore=False)
+
+    # psycopg asynchronous
+    create_async_engine(
+        url="postgresql+psycopg_relaxed://crate@localhost/acme",
+        isolation_level="AUTOCOMMIT",
+        use_native_hstore=False)
+
+    # asyncpg
+    create_async_engine(
+        url="postgresql+asyncpg_relaxed://crate@localhost/acme",
+        isolation_level="AUTOCOMMIT")
+
+
+*****
+Setup
+*****
+::
+
+    pip install --upgrade sqlalchemy-postgresql-relaxed
+
+To install the latest development version from the repository, invoke::
+
+    pip install --upgrade git+https://github.com/pyveci/sqlalchemy-postgresql-relaxed
+
+
+*******************
+Project information
+*******************
+
+Contributions
+=============
+
+Every kind of contribution, feedback, or patch, is much welcome. `Create an
+issue`_ or submit a patch if you think we should include a new feature, or to
+report or fix a bug.
+
+Development
+===========
+
+In order to setup a development environment on your workstation, please head over
+to the `development sandbox`_ documentation. When you see the software tests succeed,
+you should be ready to start hacking.
+
+Resources
+=========
+
+- `Source code repository <https://github.com/pyveci/sqlalchemy-postgresql-relaxed>`_
+- `Documentation <https://github.com/pyveci/sqlalchemy-postgresql-relaxed/blob/main/README.rst>`_
+- `Python Package Index (PyPI) <https://pypi.org/project/sqlalchemy-postgresql-relaxed/>`_
+
+License and warranty
+====================
+
+The project is licensed under the terms of the MIT license, see `LICENSE`_.
+
+
+.. _Create an issue: https://github.com/pyveci/sqlalchemy-postgresql-relaxed/issues/new
+.. _development sandbox: https://github.com/pyveci/sqlalchemy-postgresql-relaxed/blob/main/DEVELOP.rst
+.. _LICENSE: https://github.com/pyveci/sqlalchemy-postgresql-relaxed/blob/main/LICENSE
