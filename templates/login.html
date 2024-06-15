@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+{%block head%}
+    {{super()}}
+    <style>
+        body {
+            background-color: #000308;
+            max-height: calc(100vh - 10px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .loginImg {
+            margin-bottom: 30px;
+        }
+        .containerLogin {
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            border-radius: 20px;
+            min-width: 300px;
+            width: 450px;
+            height: fit-content;
+            padding: 10px;
+            border-radius: 10px;
+            border: 1px solid #2E333A;
+        }
+        .form-control {
+            background-color: #20252D;
+            width: 90%;
+            height: 40px;
+            padding: 10px;
+            margin: 10px;
+            border-radius: 10px;
+            border: none;
+            color: white;
+            border: 1px solid #2E333A;
+            outline: none;
+        }  
+        .form-control:focus {
+            border: 1px solid #A08C87;
+        }
+        .btnLogin {
+            width: 60%;
+            height: 40px;
+            padding: 10px;
+            margin: 10px;
+            border-radius: 10px;
+            border: none;
+            background-color: #20252D;
+            color: white;
+            font-size: medium;
+        }
+        .btnLogin:hover {
+            background-color: #2E333A;
+            color: white;
+        }
+        .loginHref {
+            color: #A08C87;
+        }
+        .LoginForm{
+            width: 100%;
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+        }
+        .loginRootContainer {
+            margin-top: 80px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+    </style>
+{% endblock head %}
+{% block main %}
+    <div class="loginRootContainer">
+        <img class="loginImg" src="https://amfoss.in/branding/HORIZONTAL-TEXT-BULB-WHITE.svg" alt="Lab Trac Logo" width="200px">
+        <div class="containerLogin">
+            <form action="/login" method="POST" class="LoginForm">
+                <h2>Login to Lab Trac</h2>
+                <input type="text" id="username" name="username" placeholder="Username" class="form-control" required>
+                <input type="password" id="password" name="password" placeholder="Password" class="form-control" required>
+                <button id="login" class="btnLogin">Login</button>
+                <p>Don't have an account? <a href="/register" class="loginHref">Register</a></p>
+            </form>
+            {% if error %} <p style="color:red;" id="error-msg">{{error}}</p> {% endif %}
+        </div>
+    </div>
+{% endblock %}

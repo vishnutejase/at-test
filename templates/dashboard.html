@@ -1,0 +1,265 @@
+{% extends "base.html" %}
+{% block head %}
+    {{ super() }}
+    <style>
+        body {
+            background-color: #000308;
+            max-height: calc(100vh - 10px);
+            overflow-y: hidden;
+        }
+        .barLogo {
+            display: flex;
+            justify-content: start;
+            align-items: center;
+            width: 156px;
+        }
+        .navBar {
+            padding: 10px;
+            padding-top: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: none;
+            height: 30px;
+            border-radius: 5px;
+            border: 1px solid #2E333A;
+        }
+        .navBarPages {
+            display: flex;
+            justify-content: start;
+            align-items: center;
+            gap: 10px;
+            width: 156px;
+        }
+        .selected {
+            background-color: #20252D;
+        }
+        .navBarLinks {
+            text-decoration: none;
+            color: white;
+            justify-content: center;
+            align-items: center;
+            padding: 10px; 
+            display: flex;
+            border-radius: 5px;
+        }
+        .navBarLinks:hover {
+            background-color: #282E36;
+        }
+        .navBarLinksA {
+            text-decoration: none;
+            color: white;
+        }
+        .navBarLogut {
+            text-decoration: none;
+            color: white;
+            justify-content: center;
+            align-items: center;
+            padding: 10px; 
+            display: flex;
+            border-radius: 5px;
+            justify-content: end;
+            align-items: center;
+            width: 156px;
+        }
+        .container {
+            height: calc(100vh - 80px);
+            margin-top: 10px;
+            display: grid;
+            grid-template-columns: 280px auto;
+            gap: 10px;
+        }
+        .detailsBox {
+            grid-column: 1;
+            grid-row: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border-right: 1px solid #2E333A;
+            padding: 10px;
+        }
+        .imgProfile {
+            border-radius: 50%;
+            margin: 10px;
+            height: 256px;
+            width: 256px;
+            border: 1px solid #2E333A;
+        }
+        .editDetailsBox {
+            grid-column: 2;
+            grid-row: 1;
+            flex-direction: column;
+            border-radius: 5px;
+            padding: 10px;
+        }
+        label {
+            color: white;
+            margin: 10px;
+        }
+        input[type=text] {
+            margin: 10px;
+            padding: 5px;
+            border-radius: 5px;
+            border: 1px solid #2E333A;
+            background-color: #0C1016;
+            color: white;
+            height: 40px;
+            width: 300px;
+            font-size: medium;
+        }
+        input[type=submit] {
+            margin: 10px;
+            background-color: #20252D;
+            border: none;
+            padding: 10px;
+            width: 100px;
+            color: white;
+            border-radius: 5px;
+            font-size: medium;
+        }
+        .sbmt {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .shared-secret-box {
+            gap: 10px;
+        }
+
+        .shared-secret {
+            resize: none;
+            border: none;
+            color: white;
+            margin: 10px;
+            font-family: monospace;
+            font-size: 14px;
+            background-color: #20252D;
+            font-weight: 500;
+            padding: 10px;
+            border-radius: 5px;
+            display: inline-block;
+            height: 17px;
+            width: 372px;
+            outline: none;
+        }
+        .separator {
+            margin-top: 30px;
+            margin-bottom: 30px;
+            border: 1px solid #2E333A;
+        }
+        .shared-secret-inline {
+            display: flex;
+            justify-content: start;
+            align-items: center;
+        }
+        .copyBtn {
+            margin: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #20252D;
+            font-size: 14px;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: none;
+            height: 37px;
+        }
+        .copyBtn:hover {
+            background-color: #282E36;
+        }  
+        #snackbar {
+            visibility: hidden;
+            min-width: 250px;
+            margin-left: -125px;
+            background-color: #282E36;
+            color: white;
+            text-align: center;
+            border-radius: 5px;
+            padding: 10px;
+            position: fixed;
+            z-index: 1;
+            left: 50%;
+            bottom: 30px;
+        }
+        #snackbar.show {
+            visibility: visible;
+            -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+            animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        }
+        @-webkit-keyframes fadein {
+            from {bottom: 0; opacity: 0;}
+            to {bottom: 30px; opacity: 1;}
+        }
+        @keyframes fadein {
+            from {bottom: 0; opacity: 0;}
+            to {bottom: 30px; opacity: 1;}
+        }
+    </style>
+{% endblock %}
+{% block main %}
+    <p id="snackbar">Secret copied to clipboard!</p>
+    <div class="navBar">
+        <div class="navBarPages">
+            <a href="/home" class="navBarLinksA">
+                <p class="navBarLinks">Home</p>
+            </a>
+            <a href="/dashboard" class="navBarLinksA">
+                <p class="navBarLinks selected">Profile</p>
+            </a>
+        </div>
+        
+        <div class="barLogo">
+            <img class="loginImg" src="https://amfoss.in/branding/HORIZONTAL-TEXT-BULB-WHITE.svg" alt="Lab Trac Logo" height="40px">
+        </div>
+
+        <div class="navBarActions">
+            <a href="/logout" class="navBarLogut">Logout</a>
+        </div>
+    </div>
+    <div class="container">
+        <div class="detailsBox">
+            <img class="imgProfile" src="https://cataas.com/cat?height=256&width=256" alt="Avatar" class="avatar">
+            <div class="details">
+                <h2>{{ username }}</h2>
+            </div>
+        </div>
+        <div class="editDetailsBox">
+            <div class="shared-secret-box"> 
+                <h2>Shared Secret</h2>
+                <div class="shared-secret-inline">
+                    <textarea class="shared-secret" id="shared-secret" readonly>{{ user.shared_secret }}</textarea>
+                    <button class="copyBtn" onclick="copySecret()">Copy</button>
+                </div>
+            </div>
+            <hr class="separator">
+            <h2>Edit Profile</h2>
+            <form action="/editProfile" method="POST" style="width: 320px;">
+                <h4>Name</h4>
+                <input type="text" id="name" name="name" value="{{ user.name }}">
+                <h4>Roll Number</h4>
+                <input type="text" id="rollNum" name="rollNum" value="{{ user.rollNo }}">
+                <br>
+                <div class="sbmt">
+                    <input type="submit" value="Edit">
+                </div>
+            </form>
+        </div>  
+    </div>
+    <script>
+        function showSnackbar() {
+            var snackbar = document.getElementById("snackbar");
+            snackbar.className = "show";
+            setTimeout(function(){ snackbar.className = snackbar.className.replace("show", ""); }, 1500);
+        }
+        function copySecret() {
+            let sharedSecret = document.getElementById("shared-secret");
+            let copyStatus = document.getElementById("copyStatus");
+            sharedSecret.select();
+            document.execCommand("copy");
+            sharedSecret.blur();
+            showSnackbar();
+        }
+    </script>
+{% endblock %}

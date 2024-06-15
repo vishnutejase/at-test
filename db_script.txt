@@ -1,0 +1,51 @@
+-- Drop the existing database if it exists
+DROP DATABASE IF EXISTS my_database;
+
+-- Create the database if it doesn't exist
+CREATE DATABASE IF NOT EXISTS my_database;
+
+-- Switch to the created or existing database
+USE my_database;
+
+-- Create the Users table
+CREATE TABLE IF NOT EXISTS users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_name VARCHAR(255) NOT NULL UNIQUE,
+    password TEXT NOT NULL,
+    name TEXT,
+    rollNo TEXT,
+    shared_secret TEXT
+);
+
+-- Create the Logs table with explicit foreign key constraint name
+CREATE TABLE IF NOT EXISTS logs (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    member_id INT,
+    timestamp DATETIME,
+    CONSTRAINT fk_member_id FOREIGN KEY(member_id) REFERENCES users(id)
+);
+
+-- Create the modules table
+CREATE TABLE IF NOT EXISTS modules (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name TEXT NOT NULL,
+    SSID TEXT NOT NULL,
+    seed INT NOT NULL DEFAULT 1000,
+    seedRefreshInterval INT NOT NULL,
+    lastRefreshTime DATETIME NOT NULL,
+    isPaused BOOLEAN NOT NULL DEFAULT TRUE
+);
+
+-- Create the log_modules table with explicit foreign key constraint names
+CREATE TABLE IF NOT EXISTS log_modules (
+    module_id INT,
+    log_id INT,
+    CONSTRAINT fk_module_id FOREIGN KEY(module_id) REFERENCES modules(id),
+    CONSTRAINT fk_log_id FOREIGN KEY(log_id) REFERENCES logs(id),
+    PRIMARY KEY (module_id, log_id)
+);
+
+-- Create a user with appropriate privileges
+CREATE USER IF NOT EXISTS 'my_user'@'localhost' IDENTIFIED BY 'my_password';
+GRANT ALL PRIVILEGES ON my_database.* TO 'my_user'@'localhost';
+FLUSH PRIVILEGES;
